@@ -19,6 +19,12 @@ type Option struct {
 	CodecType   codec.Type // client may choose different Codec to encode body
 }
 
+// request stores all information of a call
+type request struct {
+	h            *codec.Header // header of request
+	argv, replyv reflect.Value // argv and replyv of request
+}
+
 const MagicNumber = 0x3bef5c
 
 var DefaultOption = &Option{
@@ -81,12 +87,6 @@ func (server *Server) serveCodec(cc codec.Codec) {
 	}
 	wg.Wait()
 	_ = cc.Close()
-}
-
-// request stores all information of a call
-type request struct {
-	h            *codec.Header // header of request
-	argv, replyv reflect.Value // argv and replyv of request
 }
 
 func (server *Server) readRequestHeader(cc codec.Codec) (*codec.Header, error) {
