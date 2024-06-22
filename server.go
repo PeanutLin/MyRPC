@@ -11,15 +11,15 @@ import (
 	"sync"
 )
 
+// Server represents an RPC Server.
+type Server struct{}
+
 type Option struct {
 	MagicNumber int        // MagicNumber marks this's a geerpc request
 	CodecType   codec.Type // client may choose different Codec to encode body
 }
 
 const MagicNumber = 0x3bef5c
-
-// Server represents an RPC Server.
-type Server struct{}
 
 var DefaultOption = &Option{
 	MagicNumber: MagicNumber,
@@ -28,7 +28,6 @@ var DefaultOption = &Option{
 
 // DefaultServer is the default instance of *Server.
 var DefaultServer = NewServer()
-
 
 // invalidRequest is a placeholder for response argv when error occurs
 var invalidRequest = struct{}{}
