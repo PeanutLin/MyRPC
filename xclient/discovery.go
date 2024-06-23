@@ -33,6 +33,16 @@ const (
 
 var _ Discovery = (*MultiServersDiscovery)(nil)
 
+// NewMultiServerDiscovery creates a MultiServersDiscovery instance
+func NewMultiServerDiscovery(servers []string) *MultiServersDiscovery {
+	d := &MultiServersDiscovery{
+		servers: servers,
+		r:       rand.New(rand.NewSource(time.Now().UnixNano())),
+	}
+	d.index = d.r.Intn(math.MaxInt32 - 1)
+	return d
+}
+
 // Refresh doesn't make sense for MultiServersDiscovery, so ignore it
 func (d *MultiServersDiscovery) Refresh() error {
 	return nil
@@ -78,14 +88,4 @@ func (d *MultiServersDiscovery) GetAll() ([]string, error) {
 	servers := make([]string, len(d.servers), len(d.servers))
 	copy(servers, d.servers)
 	return servers, nil
-}
-
-// NewMultiServerDiscovery creates a MultiServersDiscovery instance
-func NewMultiServerDiscovery(servers []string) *MultiServersDiscovery {
-	d := &MultiServersDiscovery{
-		servers: servers,
-		r:       rand.New(rand.NewSource(time.Now().UnixNano())),
-	}
-	d.index = d.r.Intn(math.MaxInt32 - 1)
-	return d
 }
