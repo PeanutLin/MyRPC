@@ -248,7 +248,6 @@ func (server *Server) findService(serviceMethod string) (svc *service, mtype *me
 	return
 }
 
-
 // ServeHTTP implements an http.Handler that answers RPC requests.
 func (server *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
   if req.Method != "CONNECT" {
